@@ -33,24 +33,39 @@ public class MainTeste {
 		servidores.add(new Servidores("November"));
 		servidores.add(new Servidores("Oscar"));
 		servidores.add(new Servidores("Papa"));
+		servidores.add(new Servidores("Quebec"));
 		servidores.add(new Servidores("Romeo"));
+		servidores.add(new Servidores("Sierra"));
 		servidores.add(new Servidores("Tango"));
 		servidores.add(new Servidores("Uniform"));
 		servidores.add(new Servidores("Victor"));
+		servidores.add(new Servidores("Whiskey"));
+		servidores.add(new Servidores("Xray"));
+		servidores.add(new Servidores("Yankee"));
+		servidores.add(new Servidores("Zulu"));
+		servidores.add(new Servidores("Zero"));
+		servidores.add(new Servidores("One"));
+		servidores.add(new Servidores("Two"));
+		servidores.add(new Servidores("Three"));
+		servidores.add(new Servidores("Four"));
+		servidores.add(new Servidores("Five"));
+		servidores.add(new Servidores("Six"));
 		
 		DistribuiProcessosServidor dps = new DistribuiProcessosServidor();
 		MigradorSellenium migrador = new MigradorSellenium();
 		
 		Integer cursor = 9 ;
 		while(cursor != 0) {
-			System.out.println("""
+			System.out.print("""
 				-------MENU MIGRADOR----------------------
 					Escolha uma opção:
 					1 - Dividir Lista para Servidores.
 					2 - Distribuir listas e iniciar carga.
+					3 - Adicionar os Processos a Fila.
+					4 - Tela Gerenciar
 					0 - Encerrar
 				--------------------------------------------
-				Digite aqui: 
+				Digite aqui sua opção =>  
 					""");
 			cursor = scan.nextInt();
 			switch (cursor) {
@@ -66,13 +81,20 @@ public class MainTeste {
 					e.printStackTrace();
 				}
 			}
+			case 3: {
+				migrador.adcionarProcessos();
+				break;
+			}case 4: {
+				migrador.irParaIniciar();
+				break;
+			}
 			case 0:{
 				System.out.println("Muito Obrigado!!");
 				scan.close();
 				break;
 			}
 			default:
-				throw new IllegalArgumentException("Valor Inválido");
+				System.out.println("Número Inválido!");
 			}
 		}
 		

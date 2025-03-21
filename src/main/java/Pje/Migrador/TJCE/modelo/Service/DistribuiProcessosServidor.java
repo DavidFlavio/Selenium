@@ -13,7 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 import Pje.Migrador.TJCE.modelo.Entity.Servidores;
@@ -22,7 +21,7 @@ import Pje.Migrador.TJCE.modelo.Utils.Util;
 public class DistribuiProcessosServidor {
 		
 	
-	public static void dividirArquivoPorServidores(String arquivoOriginal, List<Servidores> servidores, String extensao) {
+	public void dividirArquivoPorServidores(String arquivoOriginal, List<Servidores> servidores, String extensao) {
 		try {
 			Path diretorioOriginal = Paths.get("src/main/Java/Files");
 			Files.createDirectories(diretorioOriginal);

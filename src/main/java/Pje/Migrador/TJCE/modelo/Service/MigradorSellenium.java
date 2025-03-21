@@ -1,4 +1,5 @@
 package Pje.Migrador.TJCE.modelo.Service;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -19,17 +20,22 @@ import Pje.Migrador.TJCE.modelo.Entity.Servidores;
 import Pje.Migrador.TJCE.modelo.Entity.Usuario;
 import Pje.Migrador.TJCE.modelo.Utils.Util;
 
-
 public class MigradorSellenium {
-	
+
 	Usuario usuario = new Usuario();
+	private List<String> janelas = new ArrayList<>(); // nova variavel para guardar as janelas abertas
+	private List<Servidores> servidoresTeste;
+	
+	private WebDriver navegador;
+	private WebDriverWait wait = new WebDriverWait(navegador, Duration.ofSeconds(10)); 
+	private WebElement menu;
 	
 	@Test
 	public void abrirIp3(List<Servidores> servidores, String extensao) throws IOException {
 		System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
-		WebDriver navegador = new ChromeDriver();
+		this.navegador = new ChromeDriver();
 		
-		List<Servidores> servidoresTeste = servidores;
+		this.servidoresTeste = servidores;
 
 		int indiceServidor = 0;
 		for (Servidores servidor : servidoresTeste) {
@@ -39,14 +45,13 @@ public class MigradorSellenium {
 				navegador.get(url);
 			} else {
 				((JavascriptExecutor) navegador).executeScript("window.open('" + url + "','_blank');");
-				
 				ArrayList<String> tabs = new ArrayList<>(navegador.getWindowHandles());
                 navegador.switchTo().window(tabs.get(tabs.size() - 1));
-																										
 			}
 			
-			// Espera explícita para o campo de usuário
-            WebDriverWait wait = new WebDriverWait(navegador, Duration.ofSeconds(10));
+			janelas.add(navegador.getWindowHandle()); // Adiciona a janela à lista
+			
+			wait = new WebDriverWait(navegador, Duration.ofSeconds(5));
             wait.until(ExpectedConditions.presenceOfElementLocated(By.id("j_username")));
 
 			navegador.findElement(By.id("j_username")).sendKeys(usuario.getUsuario());
@@ -54,14 +59,10 @@ public class MigradorSellenium {
 			WebElement enter = navegador.findElement(By.xpath("//input[@value='Entrar']"));
 			enter.click();
 			
-			WebElement menu = navegador.findElement(By.xpath("//span[text()='Administração']"));
-			
+			menu = navegador.findElement(By.xpath("//span[text()='Administração']"));
 			Actions mouse = new Actions(navegador);
-			
 			mouse.moveToElement(menu).perform();
 
-//			WebDriverWait paciencia = new WebDriverWait(navegador, Duration.ofMillis(3000));
-						
 			WebElement menuMigracaoLote = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Migração em Lote']")));
 			menuMigracaoLote.click();
 			
@@ -78,19 +79,6 @@ public class MigradorSellenium {
 			WebElement botaoPesquisar = navegador.findElement(By.id("formTransmissaoProcessoLote:cadastrar"));//(By.xpath("//span[text()='Pesquisar']"));
 			botaoPesquisar.click();
 		
-//			WebDriverWait paciencia2 = new WebDriverWait(navegador, Duration.ofSeconds(10));
-			
-			
-			
-//			for (String janela : driver.getWindowHandles()) {
-//			    driver.switchTo().window(janela); // Muda para a aba atual
-//
-//			    WebDriverWait wait = new WebDriverWait(driver, 10); // Define um tempo limite máximo de 10 segundos
-//			    WebElement botaoAdicionar = wait.until(ExpectedConditions.elementToBeClickable(By.id("formTransmissaoProcessoLote:j_idt94:j_idt106"))); // Espera até que o botão esteja clicável
-//
-//			    botaoAdicionar.click(); // Clica no botão
-//			}
-			
 			indiceServidor++;
 			try {
 				Thread.sleep(1000); 
@@ -98,8 +86,50 @@ public class MigradorSellenium {
 				e.printStackTrace();
 			}
 		}
-
+		//"formTransmissaoProcessoLote:j_idt94:j_idt106"
 
 	}
 
+	public void adcionarProcessos() {
+		for (String janela : janelas) {
+			
+			navegador.switchTo().window(janela);
+			
+			try {
+				WebElement botaoAdicionar = new WebDriverWait(navegador, Duration.ofSeconds(10))
+						.until(ExpectedConditions.elementToBeClickable(By.id("formTransmissaoProcessoLote:j_idt94:j_idt106"))); 
+
+				((JavascriptExecutor) navegador).executeScript("arguments[0].scrollIntoView(true);", botaoAdicionar);
+				botaoAdicionar.click();
+				
+				WebElement confirmar = new WebDriverWait(navegador, Duration.ofSeconds(2))
+						.until(ExpectedConditions.elementToBeClickable(By.id("formTransmissaoProcessoLote:confirm")));
+				confirmar.click();
+
+			} catch (Exception e) {
+				System.err.println("Erro ao rolar e adicionar na janela " + janela + ": " + e.getMessage());
+			}
+		}
+	}
+	
+	public void irParaIniciar() {
+		for (String janela : janelas) {
+			navegador.switchTo().window(janela);
+			
+			menu = navegador.findElement(By.xpath("//span[text()='Migração']"));
+
+			try {
+				((JavascriptExecutor) navegador).executeScript("window.scrollTo(0, 0);"); 
+//				((JavascriptExecutor) navegador).executeScript("arguments[0].scrollIntoView(true);", menu);
+				Actions mouse = new Actions(navegador);
+				mouse.moveToElement(menu).perform();
+				
+				WebElement menuMigracaoLote = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Gerenciar']")));
+				menuMigracaoLote.click();					
+
+			} catch (Exception e) {
+				System.err.println("Erro ao rolar e adicionar na janela " + janela + ": " + e.getMessage());
+			}
+		}
+	}
 }
