@@ -51,7 +51,7 @@ public class MigradorSellenium {
 			
 			janelas.add(navegador.getWindowHandle()); // Adiciona a janela à lista
 			
-			wait = new WebDriverWait(navegador, Duration.ofSeconds(5));
+			wait = new WebDriverWait(navegador, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.presenceOfElementLocated(By.id("j_username")));
 
 			navegador.findElement(By.id("j_username")).sendKeys(usuario.getUsuario());
@@ -67,7 +67,6 @@ public class MigradorSellenium {
 			menuMigracaoLote.click();
 			
 			String listaProcessosServidor = "/Files/Parte_" + servidoresTeste.get(indiceServidor).getNome() + extensao;
-
 			String conteudoArquivo = Util.lerConteudoArquivo(listaProcessosServidor);
 
 			Util.copiarParaClipboard(conteudoArquivo);
@@ -91,6 +90,10 @@ public class MigradorSellenium {
 	}
 
 	public void adcionarProcessos() {
+		if(janelas.isEmpty()) {
+			System.out.println("Não existe Janelas abertas!");
+		}
+		
 		for (String janela : janelas) {
 			
 			navegador.switchTo().window(janela);
@@ -113,6 +116,10 @@ public class MigradorSellenium {
 	}
 	
 	public void irParaIniciar() {
+		if(janelas.isEmpty()) {
+			System.out.println("Não existe Janelas abertas!");
+		}
+		
 		for (String janela : janelas) {
 			navegador.switchTo().window(janela);
 			

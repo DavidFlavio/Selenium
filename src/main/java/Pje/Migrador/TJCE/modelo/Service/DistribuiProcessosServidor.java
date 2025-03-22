@@ -23,7 +23,7 @@ public class DistribuiProcessosServidor {
 	
 	public void dividirArquivoPorServidores(String arquivoOriginal, List<Servidores> servidores, String extensao) {
 		try {
-			Path diretorioOriginal = Paths.get("src/main/Java/Files");
+			Path diretorioOriginal = Paths.get("src/main/java/Files");
 			Files.createDirectories(diretorioOriginal);
 			
 			// Primeiro passo: contar o número total de linhas no arquivo
@@ -37,7 +37,7 @@ public class DistribuiProcessosServidor {
 			// Criar leitor do arquivo
 			InputStream inputStream = Util.class.getResourceAsStream(arquivoOriginal);
 			if (inputStream == null) {
-			    throw new FileNotFoundException("Arquivo não encontrado no classpath: " + arquivoOriginal);
+			    throw new FileNotFoundException("Arquivo não encontrado: " + arquivoOriginal);
 			}
 			BufferedReader leitor = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 

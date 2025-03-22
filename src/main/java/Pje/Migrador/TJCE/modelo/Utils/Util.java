@@ -33,10 +33,11 @@ public class Util {
 		return linhas;
 	}
 
-	public static String lerConteudoArquivo(String arquivo) {
-	    try (InputStream inputStream = Util.class.getResourceAsStream(arquivo)){
+	public static String lerConteudoArquivo(String caminhoArquivo) {
+		
+	    try (InputStream inputStream = Util.class.getResourceAsStream(caminhoArquivo)){
 	         if (inputStream == null) {
-	            throw new IOException("Arquivo não encontrado: " + arquivo);
+	            throw new IOException("Arquivo não encontrado: " + caminhoArquivo);
 	        }
 	        try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name()).useDelimiter("\\A")) {
 	            return scanner.hasNext() ? scanner.next() : "";
