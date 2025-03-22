@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -81,5 +82,26 @@ public class Util {
 
 		return dadosPorServidor;
 	}
+	
+	public static void excluirArquivosDaPastaFiles() throws IOException {
+        String caminhoPastaFiles = "src/main/java/Files/"; // Caminho dos arquivos criados para cada servidor"
 
+        File pastaFiles = new File(caminhoPastaFiles);
+
+        if (!pastaFiles.exists()) {
+            throw new IOException("Pasta Files não encontrada.");
+        }
+
+        File[] arquivos = pastaFiles.listFiles();
+
+        if (arquivos != null) {
+            for (File arquivo : arquivos) {
+                if (arquivo.isFile()) {
+                    if (!arquivo.delete()) {
+                        throw new IOException("Falha ao excluir o arquivo: " + arquivo.getName());
+                    }
+                }
+            }
+        }
+    }
 }

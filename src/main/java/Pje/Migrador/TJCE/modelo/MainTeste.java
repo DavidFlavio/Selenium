@@ -8,6 +8,7 @@ import java.util.Scanner;
 import Pje.Migrador.TJCE.modelo.Entity.Servidores;
 import Pje.Migrador.TJCE.modelo.Service.DistribuiProcessosServidor;
 import Pje.Migrador.TJCE.modelo.Service.MigradorSellenium;
+import Pje.Migrador.TJCE.modelo.Utils.Util;
 
 public class MainTeste {
 
@@ -21,34 +22,34 @@ public class MainTeste {
 		List<Servidores> servidores = new ArrayList<Servidores>();
 		servidores.add(new Servidores("Bravo"));
 		servidores.add(new Servidores("Charlie"));
-//		servidores.add(new Servidores("Delta"));
-//		servidores.add(new Servidores("Echo"));
-//		servidores.add(new Servidores("Golf"));
-//		servidores.add(new Servidores("Hotel"));
-//		servidores.add(new Servidores("India"));
-//		servidores.add(new Servidores("Juliet"));
-//		servidores.add(new Servidores("Kilo"));
-//		servidores.add(new Servidores("Lima"));
-//		servidores.add(new Servidores("Mike"));
-//		servidores.add(new Servidores("November"));
-//		servidores.add(new Servidores("Oscar"));
-//		servidores.add(new Servidores("Papa"));
-//		servidores.add(new Servidores("Quebec"));
-//		servidores.add(new Servidores("Romeo"));
-//		servidores.add(new Servidores("Sierra"));
-//		servidores.add(new Servidores("Tango"));
-//		servidores.add(new Servidores("Uniform"));
-//		servidores.add(new Servidores("Victor"));
-//		servidores.add(new Servidores("Whiskey"));
-//		servidores.add(new Servidores("Xray"));
-//		servidores.add(new Servidores("Yankee"));
-//		servidores.add(new Servidores("Zulu"));
-//		servidores.add(new Servidores("Zero"));
-//		servidores.add(new Servidores("One"));
-//		servidores.add(new Servidores("Two"));
-//		servidores.add(new Servidores("Three"));
-//		servidores.add(new Servidores("Four"));
-//		servidores.add(new Servidores("Five"));
+		servidores.add(new Servidores("Delta"));
+		servidores.add(new Servidores("Echo"));
+		servidores.add(new Servidores("Golf"));
+		servidores.add(new Servidores("Hotel"));
+		servidores.add(new Servidores("India"));
+		servidores.add(new Servidores("Juliet"));
+		servidores.add(new Servidores("Kilo"));
+		servidores.add(new Servidores("Lima"));
+		servidores.add(new Servidores("Mike"));
+		servidores.add(new Servidores("November"));
+		servidores.add(new Servidores("Oscar"));
+		servidores.add(new Servidores("Papa"));
+		servidores.add(new Servidores("Quebec"));
+		servidores.add(new Servidores("Romeo"));
+		servidores.add(new Servidores("Sierra"));
+		servidores.add(new Servidores("Tango"));
+		servidores.add(new Servidores("Uniform"));
+		servidores.add(new Servidores("Victor"));
+		servidores.add(new Servidores("Whiskey"));
+		servidores.add(new Servidores("Xray"));
+		servidores.add(new Servidores("Yankee"));
+		servidores.add(new Servidores("Zulu"));
+		servidores.add(new Servidores("Zero"));
+		servidores.add(new Servidores("One"));
+		servidores.add(new Servidores("Two"));
+		servidores.add(new Servidores("Three"));
+		servidores.add(new Servidores("Four"));
+		servidores.add(new Servidores("Five"));
 //		servidores.add(new Servidores("Six"));
 		
 		DistribuiProcessosServidor dps = new DistribuiProcessosServidor();
@@ -63,6 +64,7 @@ public class MainTeste {
 					2 - Distribuir listas e iniciar carga.
 					3 - Adicionar os Processos a Fila.
 					4 - Tela Gerenciar
+					5 - Deletar arquivos da Pasta Files
 					0 - Encerrar
 				--------------------------------------------
 				Digite aqui sua opção =>  
@@ -86,6 +88,16 @@ public class MainTeste {
 				break;
 			}case 4: {
 				migrador.irParaIniciar();
+				break;
+			}
+			case 5: {
+				try {
+					Util.excluirArquivosDaPastaFiles();
+					System.out.println("Arquivos deletados com sucesso");
+				} catch (IOException e) {
+					System.out.println("Erro ao excuir arquivos " + e.getMessage());
+					e.printStackTrace();
+				}
 				break;
 			}
 			case 0:{
