@@ -34,7 +34,7 @@ public class MainTeste {
 		servidores.add(new Servidores("November"));
 		servidores.add(new Servidores("Oscar"));
 		servidores.add(new Servidores("Papa"));
-		servidores.add(new Servidores("Quebec"));
+//		servidores.add(new Servidores("Quebec"));
 		servidores.add(new Servidores("Romeo"));
 		servidores.add(new Servidores("Sierra"));
 		servidores.add(new Servidores("Tango"));
