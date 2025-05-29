@@ -24,6 +24,7 @@ public class MainTeste {
 		servidores.add(new Servidores("Charlie"));
 		servidores.add(new Servidores("Delta"));
 		servidores.add(new Servidores("Echo"));
+		servidores.add(new Servidores("Foxtrot"));
 		servidores.add(new Servidores("Golf"));
 		servidores.add(new Servidores("Hotel"));
 		servidores.add(new Servidores("India"));
@@ -34,23 +35,23 @@ public class MainTeste {
 		servidores.add(new Servidores("November"));
 		servidores.add(new Servidores("Oscar"));
 		servidores.add(new Servidores("Papa"));
-//		servidores.add(new Servidores("Quebec"));
+		servidores.add(new Servidores("Quebec"));
 		servidores.add(new Servidores("Romeo"));
 		servidores.add(new Servidores("Sierra"));
 		servidores.add(new Servidores("Tango"));
 		servidores.add(new Servidores("Uniform"));
 		servidores.add(new Servidores("Victor"));
-		servidores.add(new Servidores("Whiskey"));
-		servidores.add(new Servidores("Xray"));
-		servidores.add(new Servidores("Yankee"));
-		servidores.add(new Servidores("Zulu"));
-		servidores.add(new Servidores("Zero"));
-		servidores.add(new Servidores("One"));
-		servidores.add(new Servidores("Two"));
-		servidores.add(new Servidores("Three"));
-		servidores.add(new Servidores("Four"));
-		servidores.add(new Servidores("Five"));
-//		servidores.add(new Servidores("Six"));
+//		servidores.add(new Servidores("Whiskey"));
+//		servidores.add(new Servidores("Xray"));
+//		servidores.add(new Servidores("Yankee"));
+//		servidores.add(new Servidores("Zulu"));
+//		servidores.add(new Servidores("Zero"));
+//		servidores.add(new Servidores("One"));
+//		servidores.add(new Servidores("Two"));
+//		servidores.add(new Servidores("Three"));
+//		servidores.add(new Servidores("Four"));
+//		servidores.add(new Servidores("Five"));
+		servidores.add(new Servidores("Six"));
 		
 		DistribuiProcessosServidor dps = new DistribuiProcessosServidor();
 		MigradorSellenium migrador = new MigradorSellenium();
@@ -64,7 +65,9 @@ public class MainTeste {
 					2 - Distribuir listas e iniciar carga.
 					3 - Adicionar os Processos a Fila.
 					4 - Tela Gerenciar
-					5 - Deletar arquivos da Pasta Files
+					5 - Iniciar
+					6 - Limpar Fila
+					9 - Deletar arquivos da Pasta Files
 					0 - Encerrar
 				--------------------------------------------
 				Digite aqui sua opção =>  
@@ -91,6 +94,26 @@ public class MainTeste {
 				break;
 			}
 			case 5: {
+				try {
+					migrador.iniciarProcessamento();
+					System.out.println("Procesoamento Iniciado");
+				} catch (Exception e) {
+					System.out.println("Erro ao clicar no botão iniciar " + e.getMessage());
+					e.printStackTrace();
+				}
+				break;
+			}
+			case 6: {
+				try {
+					migrador.limparLista();
+					System.out.println("Fila de Processos Zerada");
+				} catch (Exception e) {
+					System.out.println("Erro ao limpar fila de processos " + e.getMessage());
+					e.printStackTrace();
+				}
+				break;
+			}
+			case 9: {
 				try {
 					Util.excluirArquivosDaPastaFiles();
 					System.out.println("Arquivos deletados com sucesso");

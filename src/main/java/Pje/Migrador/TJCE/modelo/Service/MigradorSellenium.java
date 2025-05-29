@@ -19,6 +19,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import Pje.Migrador.TJCE.modelo.Entity.Servidores;
 import Pje.Migrador.TJCE.modelo.Entity.Usuario;
 import Pje.Migrador.TJCE.modelo.Utils.Util;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class MigradorSellenium {
 
@@ -32,7 +33,11 @@ public class MigradorSellenium {
 	
 	@Test
 	public void abrirIp3(List<Servidores> servidores, String extensao) throws IOException {
-		System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+//		System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+//		A linha acima se tornou desnecessária com o ChromeManager
+		WebDriverManager.chromedriver().setup();
+		// Atualizar a versão do Chrome Driver automaticamente. Também coloquei a dependencia ChromeManager 
+		
 		this.navegador = new ChromeDriver();
 		
 		this.servidoresTeste = servidores;
@@ -133,6 +138,52 @@ public class MigradorSellenium {
 				
 				WebElement menuMigracaoLote = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Gerenciar']")));
 				menuMigracaoLote.click();					
+
+			} catch (Exception e) {
+				System.err.println("Erro ao rolar e adicionar na janela " + janela + ": " + e.getMessage());
+			}
+		}
+	}
+	
+	public void iniciarProcessamento() {
+		if(janelas.isEmpty()) {
+			System.out.println("Não existe Janelas abertas!");
+		}
+		
+		for (String janela : janelas) {
+			navegador.switchTo().window(janela);
+			
+			WebElement btnIniciarMigracao = navegador.findElement(By.id("formGerenciar:btn_iniciar"));
+
+			try {
+				((JavascriptExecutor) navegador).executeScript("window.scrollTo(0, 0);"); 
+				Actions mouse = new Actions(navegador);
+				
+				btnIniciarMigracao.click();
+							
+
+			} catch (Exception e) {
+				System.err.println("Erro ao rolar e adicionar na janela " + janela + ": " + e.getMessage());
+			}
+		}
+	}
+	
+	public void limparLista() {
+		if(janelas.isEmpty()) {
+			System.out.println("Não existe Janelas abertas!");
+		}
+		
+		for (String janela : janelas) {
+			navegador.switchTo().window(janela);
+			
+			WebElement btnLimpar = navegador.findElement(By.id("formGerenciar:btn_limpar"));
+
+			try {
+//				((JavascriptExecutor) navegador).executeScript("window.scrollTo(0, 0);"); 
+//				Actions mouse = new Actions(navegador);
+				
+				btnLimpar.click();
+							
 
 			} catch (Exception e) {
 				System.err.println("Erro ao rolar e adicionar na janela " + janela + ": " + e.getMessage());
