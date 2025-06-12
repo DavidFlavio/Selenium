@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 public class Usuario {
 	
 	
-	private final String usuario = "MIGRADORPJE";
+	private final String usuario = "";
 	
-	private final String senha = "ip3w2r4y6i8";
+	private final String senha = "";
 	
 	public  String getUsuario() {
 		return usuario;
